@@ -1,5 +1,5 @@
 {
-  "name": "@tots/core-node",
+  "name": "@tots/core-nestjs",
   "version": "0.0.2",
   "description": "",
   "main": "dist/index.js",
@@ -14,7 +14,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Tots-Agency/tots-core-nodejs.git"
+    "url": "git+https://github.com/Tots-Agency/tots-core-nestjs.git"
   },
   "keywords": [
     "tots"
@@ -22,9 +22,9 @@
   "author": "Matias Camiletti",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Tots-Agency/tots-core-nodejs/issues"
+    "url": "https://github.com/Tots-Agency/tots-core-nestjs/issues"
   },
-  "homepage": "https://github.com/Tots-Agency/tots-core-nodejs#readme",
+  "homepage": "https://github.com/Tots-Agency/tots-core-nestjs#readme",
   "dependencies": {
     "bcrypt": "^5.1.1"
   }
