@@ -20,6 +20,11 @@ export class TotsParamsService {
 
         valNew = PrimitiveFunctionsHelper.runByString(valNew, params);
 
+        // Verify if a string
+        if(valNew == undefined || valNew == null || typeof valNew !== 'string'){
+            return valNew;
+        }
+
         let matches = val.match(/{{(.*?)}}/g);
         if(matches == undefined){
             return valNew;
