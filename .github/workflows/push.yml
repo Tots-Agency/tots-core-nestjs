@@ -11,6 +11,6 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v3
       - run: npm install
-      - run: npm publish
+      - run: tsc && npm publish
     env:
       NODE_AUTH_TOKEN: ${{secrets.PUBLISH_SECRET}}
