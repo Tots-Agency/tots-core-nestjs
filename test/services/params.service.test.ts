@@ -1,6 +1,6 @@
 const { DateTime } = require("luxon");
 
-import { TotsTotsParamsService } from '../../src/services/params.service';
+import { TotsParamsService } from '../../src/services/params.service';
 
 describe('Params Service', () => {
     it("should be correct mbLenght", () => {
@@ -9,7 +9,7 @@ describe('Params Service', () => {
             'cars': ['Cruze', 'BMW', 'Audi', 'Mercedes']
         };
         let val = 'Hello {{name}}. mbLength({{cars}})';
-        expect(TotsTotsParamsService.processValue(val, params)).toBe('Hello John. ' + params.cars.length);
+        expect(TotsParamsService.processValue(val, params)).toBe('Hello John. ' + params.cars.length);
     });
 
     it("should be correct mbDate", () => {
