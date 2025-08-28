@@ -4,7 +4,7 @@ export class PrimitiveFunctionsHelper {
     /**
      * mbStringify = Escapa los caracteres para que sean compatibles en un JSON
      */
-    static PRIMITIVE_FUNCTIONS = ['mbLength', 'mbStringify', 'mbDate', 'mbNow'];
+    static PRIMITIVE_FUNCTIONS = ['mbLength', 'mbStringify', 'mbDate', 'mbNow', 'mbLastMonths', 'mbSplit', 'mbGetIndex', 'mbParse'];
 
     static runByString(val: string, globalParams: any): any {
         let internalVal = val;
@@ -14,7 +14,12 @@ export class PrimitiveFunctionsHelper {
         return internalVal;
     }
 
-    static runFunction(functionName: string, val: string, globalParams: any): any {
+    static runFunction(functionName: string, val: any, globalParams: any): any {
+        // Verify if val is a string
+        if(val == undefined || typeof val != 'string'){
+            return val;
+        }
+
         let internalVal = val;
         // Buscar todas las ejecuciones de la funcion en el string
         const regex = new RegExp(`\\${functionName}\\(`, 'g');
@@ -100,6 +105,79 @@ export class PrimitiveFunctionsHelper {
         let exportDataFormat = internalParams.replace(match, formatMatchVar);
         let dateString = date.toFormat(exportDataFormat);
         return val.replace(`mbNow(${internalParams})`, dateString);
+    }
+
+    static mbLastMonths(val: string, internalParams: any, globalParams: any): any {
+        let length = parseInt(val.replace('mbLastMonths(', '').replace(')', ''));
+
+        let months = [];
+        for(let i = 0; i < length; i++){
+            months.push(DateTime.now().minus({months: i}).toFormat('yyyy-MM'));
+        }
+
+        return months;
+    }
+
+    static mbSplit(val: string, internalParams: any, globalParams: any): any {
+        let dataInternal = internalParams.split(',');
+        if(dataInternal.length != 2){
+            return val;
+        }
+
+        let stringVal = dataInternal[0].trim();
+        let matches = stringVal.match(/{{(.*?)}}/g);
+        if(matches != undefined){
+            let match = matches[0];
+            let key = match.replace('{{', '').replace('}}', '');
+            let dateMatchVar = this.processValueByKey(key, globalParams);
+            stringVal = stringVal.replace(match, dateMatchVar);
+        }
+
+        return stringVal.split(dataInternal[1].trim());
+    }
+
+    static mbGetIndex(val: string, internalParams: any, globalParams: any): any {
+        let dataInternal = internalParams.split(',');
+        if(dataInternal.length != 2){
+            return val;
+        }
+
+        let stringVal = dataInternal[0].trim();
+        let matches = stringVal.match(/{{(.*?)}}/g);
+        let dataArrayVar;
+        if(matches != undefined){
+            let match = matches[0];
+            let key = match.replace('{{', '').replace('}}', '');
+            dataArrayVar = this.processValueByKey(key, globalParams);
+        }
+
+        if(dataArrayVar == undefined || !Array.isArray(dataArrayVar)){
+            throw new Error('Array not found');
+        }
+
+        let stringIndex = dataInternal[1].trim();
+        let matchesIndex = stringIndex.match(/{{(.*?)}}/g);
+        let index = dataInternal[1].trim();
+        if(matchesIndex != undefined){
+            let match = matchesIndex[0];
+            let key = match.replace('{{', '').replace('}}', '');
+            index = this.processValueByKey(key, globalParams);
+        }
+
+        return dataArrayVar[parseInt(index + '')];
+    }
+
+    static mbParse(val: string, internalParams: any, globalParams: any): any {
+        let matches = internalParams.match(/{{(.*?)}}/g);
+        if(matches == undefined){
+            return val;
+        }
+
+        let match = matches[0];
+        let key = match.replace('{{', '').replace('}}', '');
+        let data = this.processValueByKey(key, globalParams);
+
+        return JSON.parse(data);
     }
 
     static processValueByKey(key: string, params: any): any {
