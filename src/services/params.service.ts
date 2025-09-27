@@ -33,7 +33,16 @@ export class TotsParamsService {
         for(let match of matches) {
             let key = match.replace('{{', '').replace('}}', '');
             if(key.search(/\./) > -1) {
-                valNew = valNew.replace(match, this.processValueByKey(key, params));
+
+                let valueNested = this.processValueByKey(key, params);
+                if(Array.isArray(valueNested) || typeof valueNested === 'object') {
+                    valNew = valNew.replace(match, JSON.stringify(valueNested));
+                } else {
+                    valNew = valNew.replace(match, valueNested);
+                }
+
+            } else if(params[key] != undefined && (Array.isArray(params[key]) || typeof params[key] === 'object')) {
+                valNew = valNew.replace(match, JSON.stringify(params[key]));
             } else if(params[key] != undefined){
                 valNew = valNew.replace(match, params[key]);
             } else {

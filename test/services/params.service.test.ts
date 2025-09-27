@@ -75,4 +75,31 @@ describe('Params Service', () => {
         let data = TotsParamsService.processValue(val, params);
         expect(data.test).toBe('test_value');
     });
+
+    it("should be correct var array", () => {
+        let params = {
+            'json_string': '{"test": "test_value"}',
+            'test_array': [1,2,3],
+            'test_object': {
+                'other_array': [4,5,6]
+            }
+        };
+        let val = '{"tags": {{test_array}}}';
+        expect(ParamsService.processValue(val, params)).toBe('{"tags": [1,2,3]}');
+
+        let val2 = 'Array: {{test_object.other_array}}';
+        expect(ParamsService.processValue(val2, params)).toBe('Array: [4,5,6]');
+    });
+
+    it("should be correct var object", () => {
+        let params = {
+            'json_string': '{"test": "test_value"}',
+            'test_array': [1,2,3],
+            'test_object': {
+                'other_array': [4,5,6]
+            }
+        };
+        let val = '{"new_object": {{test_object}}}';
+        expect(ParamsService.processValue(val, params)).toBe('{"new_object": {"other_array":[4,5,6]}}');
+    });
 });
