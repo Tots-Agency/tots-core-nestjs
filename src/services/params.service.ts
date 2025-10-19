@@ -10,7 +10,7 @@ export class TotsParamsService {
         return params[key];
     }
 
-    static processValue(val: string|undefined, params: any): string {
+    static processValue(val: string|undefined, params: any): any {
         if(val == undefined||val == ''||val == null){
             return;
         }
