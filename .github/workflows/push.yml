@@ -10,8 +10,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v3
+        with:
+          node-version: 22
+          registry-url: https://registry.npmjs.org/
       - run: npm install
-      - run: echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
-      - run: tsc && npm publish
+      - run: tsc && npm publish --access public
     env:
-      NPM_TOKEN: ${{secrets.PUBLISH_SECRET}}
+      NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
