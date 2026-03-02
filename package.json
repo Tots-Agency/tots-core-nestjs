@@ -1,16 +1,20 @@
 {
   "name": "@tots/core-nestjs",
-  "version": "0.0.9",
+  "version": "0.1.0",
   "description": "",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
     "build-and-publish": "tsc && npm publish"
   },
+  "engines": {
+    "node": ">=18"
+  },
   "devDependencies": {
-    "@types/node": "^20.3.1",
-    "typescript": "^5.1.3"
+    "@types/node": "^24.0.0",
+    "typescript": "^5.9.3"
   },
   "repository": {
     "type": "git",
@@ -27,6 +31,6 @@
   "homepage": "https://github.com/Tots-Agency/tots-core-nestjs#readme",
   "dependencies": {
     "bcrypt": "^6.0.0",
-    "luxon": "^3.5.0"
+    "luxon": "^3.7.2"
   }
 }
