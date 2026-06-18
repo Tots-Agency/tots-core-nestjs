@@ -73,4 +73,43 @@ export class TotsParamsService {
 
         return value;
     }
+
+    static processResponseObject(raw: string, params: any) {
+        raw = PrimitiveFunctionsHelper.runByString(raw, params);
+        // Obtener todas las variables de la respuesta
+        const vars = this.getStringVariablesList(raw);
+        // reemplazar las variables por los valores
+        for (const v of vars) {
+            let val = TotsParamsService.getByKey(params, v);
+            let valString = '';
+            if (val !== null && (typeof val === 'object' || Array.isArray(val))) {
+                valString = JSON.stringify(val);
+            } else {
+                // Reemplazar los saltos de linea por \n
+                if (typeof val === 'string') {
+                    val = val.replace(/\n/g, '\\n').replace(/\r/g, '\\r');
+                }
+                valString = val;
+            }
+            raw = raw.replace(`{{${v}}}`, valString);
+        }
+
+        try {
+            return JSON.parse(raw);
+        } catch (error) {
+            return raw;
+        }
+    }
+
+    static getStringVariablesList(input: string): Array<string> {
+        // Utiliza una expresión regular para encontrar las palabras entre doble llaves
+        const matches = input.match(/{{(.*?)}}/g);
+
+        if (matches == undefined) {
+            return [];
+        }
+
+        // Filtra las palabras y elimina las llaves
+        return matches.map(match => match.replace(/{{|}}/g, ''));
+    }
 }
