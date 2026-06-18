@@ -35,7 +35,7 @@ export class PrimitiveFunctionsHelper {
             const paramsStartIndex = val.indexOf(match, startPosition) + match.length;
             const paramsEndIndex = val.indexOf(')', paramsStartIndex);
             const internalParams = val.slice(paramsStartIndex, paramsEndIndex);
-            internalVal = this[functionName](internalVal, internalParams, globalParams);
+            internalVal = (this as any)[functionName](internalVal, internalParams, globalParams);
             startPosition = paramsEndIndex;
         });
 
