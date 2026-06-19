@@ -1,11 +1,12 @@
-import * as bcrypt from 'bcrypt';
+import bcrypt from "bcryptjs";
 
 export class HashHelper {
-    static async encrypt(password: string): Promise<string> {
-        return await bcrypt.hash(password, 10);
+    static encrypt(password: string): string {
+        const salt = bcrypt.genSaltSync(10);
+        return bcrypt.hashSync(password, salt);
     }
 
-    static async compare(password: string, hash: string): Promise<boolean> {
-        return await bcrypt.compare(password, hash);
+    static compare(password: string, hash: string): boolean {
+        return bcrypt.compareSync(password, hash);
     }
 }
