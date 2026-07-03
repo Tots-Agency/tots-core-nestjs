@@ -85,10 +85,10 @@ describe('Params Service', () => {
             }
         };
         let val = '{"tags": {{test_array}}}';
-        expect(ParamsService.processValue(val, params)).toBe('{"tags": [1,2,3]}');
+        expect(TotsParamsService.processValue(val, params)).toBe('{"tags": [1,2,3]}');
 
         let val2 = 'Array: {{test_object.other_array}}';
-        expect(ParamsService.processValue(val2, params)).toBe('Array: [4,5,6]');
+        expect(TotsParamsService.processValue(val2, params)).toBe('Array: [4,5,6]');
     });
 
     it("should be correct var object", () => {
@@ -100,6 +100,16 @@ describe('Params Service', () => {
             }
         };
         let val = '{"new_object": {{test_object}}}';
-        expect(ParamsService.processValue(val, params)).toBe('{"new_object": {"other_array":[4,5,6]}}');
+        expect(TotsParamsService.processValue(val, params)).toBe('{"new_object": {"other_array":[4,5,6]}}');
+    });
+
+    it("should handle nested null values correctly and not treat them as objects", () => {
+        let params = {
+            'test_object': {
+                'null_value': null
+            }
+        };
+        let val = 'Value is: {{test_object.null_value}}';
+        expect(TotsParamsService.processValue(val, params)).toBe('Value is: ');
     });
 });
