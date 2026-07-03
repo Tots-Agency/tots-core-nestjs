@@ -35,10 +35,12 @@ export class TotsParamsService {
             if (key.search(/\./) > -1) {
 
                 let valueNested = this.processValueByKey(key, params);
-                if (Array.isArray(valueNested) || typeof valueNested === 'object') {
+                if (valueNested != undefined && (Array.isArray(valueNested) || typeof valueNested === 'object')) {
                     valNew = valNew.replace(match, JSON.stringify(valueNested));
-                } else {
+                } else if (valueNested != undefined) {
                     valNew = valNew.replace(match, valueNested);
+                } else {
+                    valNew = valNew.replace(match, '');
                 }
 
             } else if (params[key] != undefined && (Array.isArray(params[key]) || typeof params[key] === 'object')) {
