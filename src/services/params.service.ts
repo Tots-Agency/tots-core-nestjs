@@ -61,7 +61,7 @@ export class TotsParamsService {
 
     static processValueByKey(key: string, params: any): any {
         // Split key with .
-        let keys = key.split('.');
+        let keys = key.replace('{{', '').replace('}}', '').split('.');
 
         // Loop through keys
         let value = undefined;
