@@ -3,6 +3,10 @@ import { PrimitiveFunctionsHelper } from "../helpers/primitive_functions.helper"
 export class TotsParamsService {
 
     static getByKey(params: any, key: string) {
+        if (key == undefined || key == '' || key == null) {
+            return;
+        }
+
         if (key.search(/\./) > -1) {
             return TotsParamsService.processValueByKey(key, params);
         }
@@ -60,6 +64,9 @@ export class TotsParamsService {
     }
 
     static processValueByKey(key: string, params: any): any {
+        if (key == undefined || key == '' || key == null) {
+            return;
+        }
         // Split key with .
         let keys = key.replace('{{', '').replace('}}', '').split('.');
 
