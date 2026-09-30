@@ -1,6 +1,6 @@
 {
   "name": "@tots/core-nestjs",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -10,7 +10,7 @@
     "build-and-publish": "tsc && npm publish"
   },
   "engines": {
-    "node": ">=24"
+    "node": ">=22"
   },
   "devDependencies": {
     "@types/jest": "^30.0.0",
